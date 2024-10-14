@@ -1,13 +1,12 @@
 /**
  * ------------------------------------------------------------------------
- * PROJECT NAME HERE
- * Level 2 programming project
+ * Elmo Escape
+ * Level 3 programming project
  *
- * by YOUR NAME HERE
+ * Myles Smalley
  *
- * BRIEF PROJECT DESCRIPTION HERE
- * BRIEF PROJECT DESCRIPTION HERE
- * BRIEF PROJECT DESCRIPTION HERE
+ * You are in Elmo's dungeon, and are trying to escape.
+ * Watch out, he could be anywhere...
  * ------------------------------------------------------------------------
  */
 
@@ -27,6 +26,10 @@ import javax.swing.*
  */
 class GUI : JFrame(), ActionListener {
 
+    // Data Store
+    val locations = mutableListOf<Room>()
+    val currentRoom = Room
+
     // Setup some properties to hold the UI elements
     private lateinit var exampleLabel: JLabel
     private lateinit var exampleButton: JButton
@@ -35,12 +38,32 @@ class GUI : JFrame(), ActionListener {
      * Create, build and run the UI
      */
     init {
+        setupRooms()
         setupWindow()
         buildUI()
+
 
         // Show the app, centred on screen
         setLocationRelativeTo(null)
         isVisible = true
+
+        currentRoom = locations.first()
+        showRoom()
+    }
+
+    fun setupRooms() {
+        val startRoom = Room("Start")
+        val hallway1 = Room("Hallway")
+//        val funRoom = Room("Fun Room")
+//        val hallway2 = Room("Start")
+//        val fridge = Room("Start")
+//        val hallway3 = Room("Hallway")
+//        val  = Room("Fun Room")
+//        val start = Room("Start")
+//        val exit = Room("Start")
+
+        location.add(startRoom)
+
     }
 
     /**
