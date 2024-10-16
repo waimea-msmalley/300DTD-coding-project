@@ -19,6 +19,45 @@ import javax.swing.*
 
 
 //=============================================================================================
+/**
+ * Room Class
+ */
+class Room(val name: String) {
+    var leadingTo: Room? = null
+    var nextRoom: Room? = null
+
+
+    fun addLeadingTo(room: Room) {
+        if (leadingTo == null) {
+            leadingTo = room
+            room.addNextRoom(this)
+        }
+    }
+
+    fun addNextRoom(room: Room) {
+        if (nextRoom == null) {
+            nextRoom = room
+            room.addLeadingTo(this)
+        }
+    }
+
+    fun info() {
+        println("Hello, I'm $name")
+        if (leadingTo != null) {
+            println("The room that leads to me is ${leadingTo!!.name}")
+        } else {
+            println("I have no other room")
+        }
+
+        if (nextRoom != null) {
+            println("The room I lead to is ${nextRoom!!.name}")
+        } else {
+            println("I don't lead to a room")
+        }
+    }
+}
+
+//=============================================================================================
 
 /**
  * GUI class
@@ -28,7 +67,7 @@ class GUI : JFrame(), ActionListener {
 
     // Data Store
     val locations = mutableListOf<Room>()
-    val currentRoom = Room
+    val currentRoom: Room
 
     // Setup some properties to hold the UI elements
     private lateinit var exampleLabel: JLabel
@@ -63,6 +102,11 @@ class GUI : JFrame(), ActionListener {
 //        val exit = Room("Start")
 
         location.add(startRoom)
+        location.add(hallway1)
+
+        startRoom.addNextRoom(hallway1)
+
+        startRoom.info()
 
     }
 
