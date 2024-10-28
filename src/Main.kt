@@ -24,9 +24,9 @@ import javax.swing.*
 /**
  * Room Class
  */
-class Room(val name: String) {
+class Room(val name: String, val description: String ) {
     var cameFrom: Room? = null
-    var nextRoom: Room? = null
+    var north: Room? = null
 
 
     fun addcameFrom(room: Room) {
@@ -37,8 +37,8 @@ class Room(val name: String) {
     }
 
     fun addNextRoom(room: Room) {
-        if (nextRoom == null) {
-            nextRoom = room
+        if (north == null) {
+            north = room
             room.addcameFrom(this)
         }
     }
@@ -51,8 +51,8 @@ class Room(val name: String) {
             println("I have no other room")
         }
 
-        if (nextRoom != null) {
-            println("The room I lead to is ${nextRoom!!.name}")
+        if (north != null) {
+            println("The room I lead to is ${north!!.name}")
         } else {
             println("I don't lead to a room")
         }
@@ -72,12 +72,12 @@ class GUI : JFrame(), ActionListener {
     var currentRoom: Room
 
     // Setup some properties to hold the UI elements
-    private lateinit var exampleLabel: JLabel
-//    private lateinit var personLabel: JLabel
-    private lateinit var parentLabel: JLabel
-    private lateinit var childLabel: JLabel
-    private lateinit var nextButton: JButton
-    private lateinit var backButton: JButton
+
+    private lateinit var northButton: JButton
+    private lateinit var southButton: JButton
+    private lateinit var westButton: JButton
+    private lateinit var eastButton: JButton
+    private lateinit var roomLabel: JLabel
 
     /**
      * Create, build and run the UI
@@ -93,23 +93,28 @@ class GUI : JFrame(), ActionListener {
         isVisible = true
 
         currentRoom = locations.first()
-        showRoom()
+//        showRoom()
     }
 
     fun setupRooms() {
-        val startRoom = Room("Start")
-        val funRoom = Room("Fun Room")
-//        val hallway2 = Room("Start")
-//        val fridge = Room("Start")
-//        val hallway3 = Room("Hallway")
-//        val  = Room("Fun Room")
-//        val start = Room("Start")
-//        val exit = Room("Start")
+        val startRoom = Room("Bedroom", "...")
+        val funRoom = Room("Fun Room", "...")
+        val fridge = Room("The Fridge", "...")
+        val cells = Room("Cells", "...")
+        val tickle = Room("Tickle Chamber", "...")
+        val exit = Room("Exit", "...")
 
         locations.add(startRoom)
         locations.add(funRoom)
+        locations.add(fridge)
+        locations.add(cells)
+        locations.add(exit)
 
         startRoom.addNextRoom(funRoom)
+        funRoom.addNextRoom(tickle)
+        tickle.addNextRoom(fridge)
+        fridge.addNextRoom(cells)
+        cells.addNextRoom(exit)
 
         startRoom.info()
 
@@ -135,37 +140,29 @@ class GUI : JFrame(), ActionListener {
         val baseFont = Font(Font.SANS_SERIF, Font.PLAIN, 20)
         val smallFont = Font(Font.SANS_SERIF, Font.PLAIN, 16)
 
-        exampleLabel = JLabel("Elmo Escape Pro", SwingConstants.CENTER)
-        exampleLabel.bounds = Rectangle(30, 30, 240, 40)
-        exampleLabel.font = baseFont
-        add(exampleLabel)
+        northButton = JButton("North")
+        northButton.bounds = Rectangle(163,234,90,32)
+        northButton.font = smallFont
+        northButton.addActionListener(this)
+        add(northButton)
 
-//        personLabel = JLabel("You", SwingConstants.CENTER)
-//        personLabel.bounds = Rectangle(108, 163, 185, 56)
-//        personLabel.font = baseFont
-//        add(personLabel)
+        southButton = JButton("South")
+        southButton.bounds = Rectangle(163,398,90,32)
+        southButton.font = smallFont
+        southButton.addActionListener(this)
+        add(southButton)
 
-        parentLabel = JLabel("Parent Name", SwingConstants.CENTER)
-        parentLabel.bounds = Rectangle(163,430,90,32)
-        parentLabel.font = baseFont
-        add(parentLabel)
+        westButton = JButton("West")
+        westButton.bounds = Rectangle(27,307,90,32)
+        westButton.font = smallFont
+        westButton.addActionListener(this)
+        add(westButton)
 
-        childLabel = JLabel("Child Name", SwingConstants.CENTER)
-        childLabel.bounds = Rectangle(163,200,90,32)
-        childLabel.font = baseFont
-        add(childLabel)
-
-        nextButton = JButton("North")
-        nextButton.bounds = Rectangle(163,234,90,32)
-        nextButton.font = smallFont
-        nextButton.addActionListener(this)
-        add(nextButton)
-
-        backButton = JButton("South")
-        backButton.bounds = Rectangle(163,398,90,32)
-        backButton.font = smallFont
-        backButton.addActionListener(this)
-        add(backButton)
+        eastButton = JButton("East")
+        eastButton.bounds = Rectangle(290,307,90,32)
+        eastButton.font = smallFont
+        eastButton.addActionListener(this)
+        add(eastButton)
     }
 
     /**
@@ -173,50 +170,49 @@ class GUI : JFrame(), ActionListener {
      */
     override fun actionPerformed(e: ActionEvent?) {
         when (e?.source) {
-            nextButton ->gotoNextRoom()
-            backButton -> gotoCameFrom()
+            northButton ->gotoNorth()
+            southButton -> gotoSouth()
         }
     }
-
     /**
      * An Example Action
      */
-    private fun gotoCameFrom() {
+    private fun gotoSouth() {
         // Does this person have a parent?
         if (currentRoom.cameFrom != null) {
             // If so, let's point at that parent...
             currentRoom = currentRoom.cameFrom!!
             // And update the UI to show them
-            showRoom()
+//            showRoom()
         }
     }
 
-    private fun gotoNextRoom() {
+    private fun gotoNorth() {
         // Does this person have a child?
-        if (currentRoom.nextRoom != null) {
+        if (currentRoom.north != null) {
             // If so, let's point at that child...
-            currentRoom = currentRoom.nextRoom!!
+            currentRoom = currentRoom.north!!
             // And update the UI to show them
-            showRoom()
+//            showRoom()
         }
     }
 
-    private fun showRoom() {
-        if (currentRoom.cameFrom != null) {
-            parentLabel.text = currentRoom.cameFrom?.name
-        } else {
-            parentLabel.text = "No Room"
-        }
-
-        if (currentRoom.nextRoom != null) {
-            childLabel.text = currentRoom.nextRoom?.name
-        } else {
-            childLabel.text = "No Room"
-        }
-
+//    private fun showRoom() {
+//        if (currentRoom.cameFrom != null) {
+//            parentLabel.text = currentRoom.cameFrom?.name
+//        } else {
+//            parentLabel.text = "No Room"
+//        }
+//
+//        if (currentRoom.north != null) {
+//            childLabel.text = currentRoom.north?.name
+//        } else {
+//            childLabel.text = "No Room"
+//        }
+//
 //        personLabel.text = currentRoom.name
-
-    }
+//
+//    }
 }
 
 
