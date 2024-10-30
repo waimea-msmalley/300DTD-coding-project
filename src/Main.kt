@@ -12,7 +12,6 @@
 
 
 import com.formdev.flatlaf.FlatDarkLaf
-import com.formdev.flatlaf.FlatLightLaf
 import java.awt.*
 import java.awt.event.*
 import javax.swing.*
@@ -25,28 +24,44 @@ import javax.swing.*
  * Room Class
  */
 class Room(val name: String, val description: String ) {
-    var cameFrom: Room? = null
+    var south: Room? = null
     var north: Room? = null
+    var east: Room? = null
+    var west: Room? = null
 
 
-    fun addcameFrom(room: Room) {
-        if (cameFrom == null) {
-            cameFrom = room
-            room.addNextRoom(this)
+    fun addNorth(room: Room) {
+        if (north == null) {
+            north = room
+            room.addSouth(this)
         }
     }
 
-    fun addNextRoom(room: Room) {
-        if (north == null) {
-            north = room
-            room.addcameFrom(this)
+    fun addSouth(room: Room) {
+        if (south == null) {
+            south = room
+            room.addNorth(this)
+        }
+    }
+
+    fun addWest(room: Room) {
+        if (west == null) {
+            west = room
+            room.addEast(this)
+        }
+    }
+
+    fun addEast(room: Room) {
+        if (east == null) {
+            east = room
+            room.addWest(this)
         }
     }
 
     fun info() {
-        println("Hello, I'm $name")
-        if (cameFrom != null) {
-            println("The room that leads to me is ${cameFrom!!.name}")
+        println("Hello, I'm $name, $description")
+        if (south != null) {
+            println("The room that leads to me is ${south!!.name}")
         } else {
             println("I have no other room")
         }
@@ -77,7 +92,8 @@ class GUI : JFrame(), ActionListener {
     private lateinit var southButton: JButton
     private lateinit var westButton: JButton
     private lateinit var eastButton: JButton
-    private lateinit var roomLabel: JLabel
+    private lateinit var roomNameLabel: JLabel
+    private lateinit var roomDescLabel: JLabel
 
     /**
      * Create, build and run the UI
@@ -93,7 +109,7 @@ class GUI : JFrame(), ActionListener {
         isVisible = true
 
         currentRoom = locations.first()
-//        showRoom()
+        showRoom()
     }
 
     fun setupRooms() {
@@ -102,21 +118,23 @@ class GUI : JFrame(), ActionListener {
         val fridge = Room("The Fridge", "...")
         val cells = Room("Cells", "...")
         val tickle = Room("Tickle Chamber", "...")
+        val lair = Room("Lair", "...")
         val exit = Room("Exit", "...")
 
         locations.add(startRoom)
         locations.add(funRoom)
         locations.add(fridge)
         locations.add(cells)
+        locations.add(lair)
         locations.add(exit)
 
-        startRoom.addNextRoom(funRoom)
-        funRoom.addNextRoom(tickle)
-        tickle.addNextRoom(fridge)
-        fridge.addNextRoom(cells)
-        cells.addNextRoom(exit)
-
-        startRoom.info()
+        startRoom.addNorth(tickle)
+        tickle.addEast(fridge)
+        tickle.addWest(funRoom)
+        tickle.addSouth(startRoom)
+        funRoom.addNorth(cells)
+        cells.addEast(lair)
+        cells.addWest(exit)
 
     }
 
@@ -139,6 +157,16 @@ class GUI : JFrame(), ActionListener {
     private fun buildUI() {
         val baseFont = Font(Font.SANS_SERIF, Font.PLAIN, 20)
         val smallFont = Font(Font.SANS_SERIF, Font.PLAIN, 16)
+
+        roomNameLabel = JLabel("Room:", SwingConstants.CENTER)
+        roomNameLabel.bounds = Rectangle(138, 21, 134, 43)
+        roomNameLabel.font = baseFont
+        add(roomNameLabel)
+
+        roomDescLabel = JLabel("Room:", SwingConstants.CENTER)
+        roomDescLabel.bounds = Rectangle(102, 76, 205, 146)
+        roomDescLabel.font = smallFont
+        add(roomDescLabel)
 
         northButton = JButton("North")
         northButton.bounds = Rectangle(163,234,90,32)
@@ -172,6 +200,8 @@ class GUI : JFrame(), ActionListener {
         when (e?.source) {
             northButton ->gotoNorth()
             southButton -> gotoSouth()
+            eastButton -> gotoEast()
+            westButton -> gotoWest()
         }
     }
     /**
@@ -179,11 +209,11 @@ class GUI : JFrame(), ActionListener {
      */
     private fun gotoSouth() {
         // Does this person have a parent?
-        if (currentRoom.cameFrom != null) {
+        if (currentRoom.south != null) {
             // If so, let's point at that parent...
-            currentRoom = currentRoom.cameFrom!!
+            currentRoom = currentRoom.south!!
             // And update the UI to show them
-//            showRoom()
+            showRoom()
         }
     }
 
@@ -193,26 +223,60 @@ class GUI : JFrame(), ActionListener {
             // If so, let's point at that child...
             currentRoom = currentRoom.north!!
             // And update the UI to show them
-//            showRoom()
+            showRoom()
         }
     }
 
-//    private fun showRoom() {
-//        if (currentRoom.cameFrom != null) {
-//            parentLabel.text = currentRoom.cameFrom?.name
-//        } else {
-//            parentLabel.text = "No Room"
-//        }
-//
-//        if (currentRoom.north != null) {
-//            childLabel.text = currentRoom.north?.name
-//        } else {
-//            childLabel.text = "No Room"
-//        }
-//
-//        personLabel.text = currentRoom.name
-//
-//    }
+    private fun gotoEast() {
+        // Does this person have a child?
+        if (currentRoom.east != null) {
+            // If so, let's point at that child...
+            currentRoom = currentRoom.east!!
+            // And update the UI to show them
+            showRoom()
+        }
+    }
+
+    private fun gotoWest() {
+        // Does this person have a child?
+        if (currentRoom.west != null) {
+            // If so, let's point at that child...
+            currentRoom = currentRoom.west!!
+            // And update the UI to show them
+            showRoom()
+        }
+    }
+
+    private fun showRoom() {
+        if (currentRoom.north != null) {
+            northButton.isEnabled = true
+        } else {
+            northButton.isEnabled = false
+        }
+
+        if (currentRoom.south != null) {
+            southButton.isEnabled = true
+        } else {
+            southButton.isEnabled = false
+        }
+
+        if (currentRoom.west != null) {
+            westButton.isEnabled = true
+        } else {
+            westButton.isEnabled = false
+        }
+
+        if (currentRoom.east != null) {
+            eastButton.isEnabled = true
+        } else {
+            eastButton.isEnabled = false
+        }
+
+        roomNameLabel.text = currentRoom.name
+        roomDescLabel.text = currentRoom.description
+
+
+    }
 }
 
 
