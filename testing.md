@@ -4,123 +4,25 @@
 
 The project involves the programming of a game.
 
-BRIEF DESCRIPTION OF GAME HERE
-BRIEF DESCRIPTION OF GAME HERE
-BRIEF DESCRIPTION OF GAME HERE
+You are stuck Elmo's secret lair, and you must escape. Can you survive the horrors that lie within?
 
 ### Game Features and Rules
 
 The game has the following features and/or rules:
 
-- GAME FEATURE / RULE
-- GAME FEATURE / RULE
-- GAME FEATURE / RULE
-- GAME FEATURE / RULE
-
+- Player can navigate to different rooms.
+- Player can read the descriptions of the rooms, and find clues on how to escape Elmo's lair.
+- PLayer should not be able to click on directions that have no rooms.
+- Once the player escapes, the game will end.
 ---
-
-## Test Plan
-
-The following game features / functionality and player actions will need to be tested:
-
-- FUNCTIONALITY / FEATURE / ACTION TO TEST
-- FUNCTIONALITY / FEATURE / ACTION TO TEST
-- FUNCTIONALITY / FEATURE / ACTION TO TEST
-- FUNCTIONALITY / FEATURE / ACTION TO TEST
-- FUNCTIONALITY / FEATURE / ACTION TO TEST
-
-The following tests will be run against the completed game. The tests should result in the expected outcomes shown.
-
-
-### TEST NAME HERE
-
-TEST DESCRIPTION HERE
-
-#### Test Data / Actions to Use
-
-TEST DATA TO USE DETAILED HERE
-
-#### Expected Outcome
-
-EXPECTED OUTCOME DETAILED HERE
-
-
-### TEST NAME HERE
-
-TEST DESCRIPTION HERE
-
-#### Test Data / Actions to Use
-
-TEST DATA TO USE DETAILED HERE
-
-#### Expected Outcome
-
-EXPECTED OUTCOME DETAILED HERE
-
-
-### TEST NAME HERE
-
-TEST DESCRIPTION HERE
-
-#### Test Data / Actions to Use
-
-TEST DATA TO USE DETAILED HERE
-
-#### Expected Outcome
-
-EXPECTED OUTCOME DETAILED HERE
-
-
-### TEST NAME HERE
-
-TEST DESCRIPTION HERE
-
-#### Test Data / Actions to Use
-
-TEST DATA TO USE DETAILED HERE
-
-#### Expected Outcome
-
-EXPECTED OUTCOME DETAILED HERE
-
-
----
-
 
 ## Evidence / Results of Testing
 
-### TEST NAME HERE
+### Functionality Testing
 
-ACTUAL RESULTS OF TESTING SHOWN HERE
+This is a link to a video of me running the game and testing its functionality. (Navigating the rooms, reading the room descriptions, finding the exit.)
 
-![](images/placeholder.jpg)
+[Testing Video](https://mywaimeaschool-my.sharepoint.com/:v:/g/personal/msmalley_waimea_school_nz/Ecvvnz6kuoRBpaQbJH4UiHgBetNvBzaClHnjg2mr4LDH0A?e=BUWaKz&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D)
 
-NOTES REGARDING THE RESULTS HERE
-
-
-### TEST NAME HERE
-
-ACTUAL RESULTS OF TESTING SHOWN HERE
-
-![](images/placeholder.jpg)
-
-NOTES REGARDING THE RESULTS HERE
-
-
-### TEST NAME HERE
-
-ACTUAL RESULTS OF TESTING SHOWN HERE
-
-![](images/placeholder.jpg)
-
-NOTES REGARDING THE RESULTS HERE
-
-
-### TEST NAME HERE
-
-ACTUAL RESULTS OF TESTING SHOWN HERE
-
-![](images/placeholder.jpg)
-
-NOTES REGARDING THE RESULTS HERE
+Everything works as I expected, without any bugs.
 
